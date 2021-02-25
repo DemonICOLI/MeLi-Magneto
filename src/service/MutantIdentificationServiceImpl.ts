@@ -19,19 +19,18 @@ export class MutantIdentificationServiceImpl implements IMutantIdentificationSer
         if(!Utils.isSquareGenome(subjectGenome)){
            return this.presenter.generateInvalidInputResponse();
         }
-        const genomeValidationResult: boolean[] = await Promise.all([
-            this.horizontalGeneSequenceFinder.containsMutantSequence(subjectGenome),
-            this.verticalGeneSequenceFinder.containsMutantSequence(subjectGenome),
-            this.leftDiagonalGeneSequenceFinder.containsMutantSequence(subjectGenome),
-            this.rightDiagonalGeneSequenceFinder.containsMutantSequence(subjectGenome),
-        ]);
-        const isMutant = genomeValidationResult.reduce((hasMutantSequenceBeenDetected, isMutantSequencePresent) => {
-            return hasMutantSequenceBeenDetected || isMutantSequencePresent;
-        }, false);
-        if(!isMutant) {
+        try {
+            await Promise.any([
+                this.horizontalGeneSequenceFinder.containsMutantSequence(subjectGenome),
+                this.verticalGeneSequenceFinder.containsMutantSequence(subjectGenome),
+                this.leftDiagonalGeneSequenceFinder.containsMutantSequence(subjectGenome),
+                this.rightDiagonalGeneSequenceFinder.containsMutantSequence(subjectGenome),
+            ]);
+            return this.presenter.generateIsMutantResponse();
+        } catch (error) {
             return this.presenter.generateIsNotMutantResponse();
         }
-        return this.presenter.generateIsMutantResponse();
+
     }
 
 }

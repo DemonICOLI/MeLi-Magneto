@@ -4,14 +4,18 @@ import {GeneSequence} from "../../../model/mutant-gene/GeneSequence";
 
 export abstract class MutantGeneFinder {
     public async containsMutantSequence(subjectGenome: Genome): Promise<boolean> {
-        const geneSequences = this.extractGeneSequences(subjectGenome),
-            sequencesValidationResult: boolean[] = await Promise.all(geneSequences.map((geneSequence) => {
-                return new Promise<boolean>(resolve => resolve(Utils.isMutantMarkerPresent(geneSequence)))
+        const geneSequences = this.extractGeneSequences(subjectGenome);
+        let sequencesValidationResult: boolean;
+        try {
+            sequencesValidationResult = await Promise.any(geneSequences.map((geneSequence) => {
+                return new Promise<boolean>(((resolve, reject) => {
+                    Utils.isMutantMarkerPresent(geneSequence) ? resolve(true) : reject (false)
+                }))
             }));
-        const containsMutantSequence = sequencesValidationResult.reduce((hasMutantSequenceBeenDetected, isSequenceMutant) => {
-            return hasMutantSequenceBeenDetected || isSequenceMutant;
-        }, false);
-        return containsMutantSequence;
+        } catch (error) {
+            sequencesValidationResult = false;
+        }
+        return sequencesValidationResult
     }
 
     abstract extractGeneSequences(genome: Genome): GeneSequence[];

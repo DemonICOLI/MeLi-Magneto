@@ -10,18 +10,18 @@ describe("Utils Test Suite", () => {
         });
 
         it("isMutantMarkerPresent should return true if a String matches the mutant regex", () => {
-            const mutantRegex = /[K]\1\1\1+/,
-                stringToTest = "KKKK";
+            const mutantRegex = /([K])\1\1\1+/,
+                sequenceToTest = ["K","K","K","K"];
             spyOn(Utils, "buildMutantFindingRegex").and.returnValue(mutantRegex);
-            const isMutantMarkerPresent = Utils.isMutantMarkerPresent(stringToTest);
+            const isMutantMarkerPresent = Utils.isMutantMarkerPresent(sequenceToTest);
             expect(isMutantMarkerPresent).toBeTrue();
         });
 
         it("isMutantMarkerPresent should return false if a String matches the mutant regex", () => {
-            const mutantRegex = /[K]\1\1\1+/,
-                stringToTest = "KKKG";
+            const mutantRegex = /([K])\1\1\1+/,
+                sequenceToTest = ["K","K","K","G"];
             spyOn(Utils, "buildMutantFindingRegex").and.returnValue(mutantRegex);
-            const isMutantMarkerPresent = Utils.isMutantMarkerPresent(stringToTest);
+            const isMutantMarkerPresent = Utils.isMutantMarkerPresent(sequenceToTest);
             expect(isMutantMarkerPresent).toBeFalse();
         });
 

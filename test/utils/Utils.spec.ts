@@ -25,5 +25,25 @@ describe("Utils Test Suite", () => {
             expect(isMutantMarkerPresent).toBeFalse();
         });
 
+        it("isSquareGenome should return false if Genome is not square", () => {
+            const gnomeToTest =
+                [
+                    ["K","K"],
+                    ["K"]
+                ];
+            const isGnomeSquare = Utils.isSquareGenome(gnomeToTest);
+            expect(isGnomeSquare).toBeFalse();
+        });
+
+        it("isSquareGenome should return true if Genome is square", () => {
+            const gnomeToTest =
+                [
+                    ["K","K"],
+                    ["K","K"]
+                ];
+            const isGnomeSquare = Utils.isSquareGenome(gnomeToTest);
+            expect(isGnomeSquare).toBeTrue();
+        });
+
     });
 });

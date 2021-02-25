@@ -7,7 +7,7 @@ describe("MutantGeneRightDiagonalFinder Test Suite", () => {
 
     describe("Success Cases", () => {
 
-        it("extractGeneSequences should Return the Left diagonal Genes of a Genome", () => {
+        it("extractGeneSequences should Return the Right diagonal Genes of a Genome", () => {
             const genome: Genome = [
                     ["A", "A", "A", "A", "A"],
                     ["C", "C", "C", "C", "C"],

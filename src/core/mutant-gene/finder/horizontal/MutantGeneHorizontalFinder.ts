@@ -9,6 +9,6 @@ export class MutantGeneHorizontalFinder extends MutantGeneFinder {
         genome.forEach((geneSequence) => {
             geneSequences.push(geneSequence)
         });
-        return geneSequences
+        return geneSequences;
     }
 }

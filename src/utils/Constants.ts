@@ -1,0 +1,5 @@
+export const CONSTANTS = {
+    NUMBER_OF_CONSECUTIVE_GENES_TO_BE_MUTANT: 4,
+    GENES: "ACGT",
+
+};

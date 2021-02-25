@@ -1,5 +1,6 @@
 import {CONSTANTS} from "./Constants";
 import {GeneSequence} from "../model/mutant-gene/GeneSequence";
+import {Genome} from "../model/mutant-gene/Genome";
 
 export class Utils {
 
@@ -16,6 +17,15 @@ export class Utils {
         const mutantRegex = this.buildMutantFindingRegex(),
             flattenedGeneSequence = this.flatGeneSequence(geneSequence);
         return mutantRegex.test(flattenedGeneSequence);
+    }
+
+    public static isSquareGenome(subjectGenome: Genome): boolean {
+        const genomeLength = subjectGenome.length;
+        let isSquare = true;
+        for (const sequence of subjectGenome) {
+            isSquare = isSquare && (sequence.length === genomeLength);
+        }
+        return isSquare;
     }
 
     private static flatGeneSequence(geneSequence: GeneSequence): string {

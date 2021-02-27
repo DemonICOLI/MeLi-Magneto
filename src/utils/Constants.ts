@@ -1,5 +1,11 @@
 export const CONSTANTS = {
     NUMBER_OF_CONSECUTIVE_GENES_TO_BE_MUTANT: 4,
     GENES: "ACGT",
-
 };
+
+export const HTTP_CODES = {
+    OK: 200,
+    BAD_REQUEST: 400,
+    FORBIDDEN: 403,
+    INTERNAL_SERVER_ERROR: 500
+}

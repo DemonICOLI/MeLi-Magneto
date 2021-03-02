@@ -16,6 +16,6 @@ export class MutantIdentificationAWSAPIGWController implements MutantIdentificat
 		for (const dnaSequence of dna) {
 			genome.push(Array.from(dnaSequence));
 		}
-		return this.service.checkMutant(genome);
+		return await this.service.checkMutant(genome);
 	}
 }

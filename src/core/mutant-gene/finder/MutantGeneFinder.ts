@@ -1,23 +1,27 @@
 import { Utils } from "../../../utils/Utils";
 import { Genome } from "../../../model/mutant-gene/Genome";
 import { GeneSequence } from "../../../model/mutant-gene/GeneSequence";
+import { injectable } from "inversify";
+import "reflect-metadata";
 
+@injectable()
 export abstract class MutantGeneFinder {
-	public async containsMutantSequence(subjectGenome: Genome): Promise<boolean> {
-		const geneSequences = this.extractGeneSequences(subjectGenome);
-		let sequencesValidationResult: boolean;
-		try {
-			sequencesValidationResult = await Promise.any(
+	public async findNumberOfMutantSequence(subjectGenome: Genome): Promise<number> {
+		const geneSequences = this.extractGeneSequences(subjectGenome),
+			sequencesValidationResult: number[] = await Promise.all(
 				geneSequences.map((geneSequence) => {
-					return new Promise<boolean>((resolve, reject) => {
-						Utils.isMutantMarkerPresent(geneSequence) ? resolve(true) : reject(false);
+					return new Promise<number>((resolve) => {
+						Utils.isMutantMarkerPresent(geneSequence) ? resolve(1) : resolve(0);
 					});
 				})
 			);
-		} catch (error) {
-			sequencesValidationResult = false;
-		}
-		return sequencesValidationResult;
+		const numberOfMutantSequences = sequencesValidationResult.reduce(
+			(detectedMutantSequences, isSequenceMutant) => {
+				return detectedMutantSequences + isSequenceMutant;
+			},
+			0
+		);
+		return numberOfMutantSequences;
 	}
 
 	abstract extractGeneSequences(genome: Genome): GeneSequence[];

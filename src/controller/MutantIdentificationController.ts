@@ -1,3 +1,3 @@
 export interface MutantIdentificationController {
-    handleEvent(event: any): Promise<any>
+	handleEvent(event: any): Promise<any>;
 }

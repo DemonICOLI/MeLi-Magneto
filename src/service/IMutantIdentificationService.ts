@@ -1,5 +1,5 @@
-import {Genome} from "../model/mutant-gene/Genome";
+import { Genome } from "../model/mutant-gene/Genome";
 
 export interface IMutantIdentificationService {
-    checkMutant(subjectGenome: Genome):Promise<any>;
+	checkMutant(subjectGenome: Genome): Promise<any>;
 }

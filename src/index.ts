@@ -2,7 +2,7 @@ import { AppContainer } from "./config/Config";
 import { MutantIdentificationController } from "./controller/MutantIdentificationController";
 import { TYPES } from "./utils/Constants";
 
-let controllerInstance;
+let controllerInstance: MutantIdentificationController;
 
 export async function handler(event: object, context: object): Promise<object> {
 	console.debug("Evento Recibido: %o \n Contexto de Ejecución: %o", event, context);

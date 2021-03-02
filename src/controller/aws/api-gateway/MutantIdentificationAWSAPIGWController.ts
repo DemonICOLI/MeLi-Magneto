@@ -4,6 +4,7 @@ import { IMutantIdentificationService } from "../../../service/IMutantIdentifica
 import { Genome } from "../../../model/mutant-gene/Genome";
 import { inject, injectable } from "inversify";
 import { TYPES } from "../../../utils/Constants";
+import "reflect-metadata";
 
 @injectable()
 export class MutantIdentificationAWSAPIGWController implements MutantIdentificationController {

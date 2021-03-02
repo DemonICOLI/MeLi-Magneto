@@ -4,9 +4,15 @@
   "description": "Examen Técnico MeLi",
   "main": "index.js",
   "scripts": {
+    "build": "npm run clean && npm run build-app",
+    "build-app": "tsc -p tsconfig.json",
+    "clean": "rimraf dist && rimraf coverage && rimraf MeliMagneto.zip",
     "coverage": "nyc -r lcov -r text -e .ts -x \"test/**/*.spec.ts\" npm run test",
     "lint": "eslint . --ext .ts",
-    "test": "ts-node node_modules/jasmine/bin/jasmine --config=jasmine.json"
+    "lint:fix": "eslint '*/**/*.ts' --quiet --fix",
+    "postbuild": "npm run copy-pck-files && npm run copy-mdl-files && npm run zip && mv process-manager.zip dist/",
+    "test": "ts-node node_modules/jasmine/bin/jasmine --config=jasmine.json",
+    "zip": "cd dist/ && bestzip  ../MeliMagneto.zip *"
   },
   "repository": {
     "type": "git",
@@ -29,9 +35,13 @@
     "@types/node": "^14.14.31",
     "@typescript-eslint/eslint-plugin": "^4.15.2",
     "@typescript-eslint/parser": "^4.15.2",
+    "bestzip": "^2.1.7",
     "eslint": "^7.20.0",
+    "eslint-config-prettier": "^8.1.0",
+    "eslint-plugin-prettier": "^3.3.1",
     "jasmine": "^3.6.4",
     "nyc": "^15.1.0",
+    "prettier": "2.2.1",
     "rimraf": "^3.0.2",
     "ts-mocks": "^3.0.1",
     "ts-node": "^9.1.1",
@@ -40,7 +50,13 @@
   "nyc": {
     "include": [
       "src"
+    ],
+    "exclude": [
+      "src/config/Config.ts"
     ]
   },
-  "dependencies": {}
+  "dependencies": {
+    "inversify": "^5.0.5",
+    "reflect-metadata": "^0.1.13"
+  }
 }

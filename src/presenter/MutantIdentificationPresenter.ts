@@ -1,5 +1,5 @@
-export interface MutantIdentificationPresenter{
-    generateInvalidInputResponse(): any
-    generateIsMutantResponse() : any;
-    generateIsNotMutantResponse() : any;
+export interface MutantIdentificationPresenter {
+	generateInvalidInputResponse(): any;
+	generateIsMutantResponse(): any;
+	generateIsNotMutantResponse(): any;
 }

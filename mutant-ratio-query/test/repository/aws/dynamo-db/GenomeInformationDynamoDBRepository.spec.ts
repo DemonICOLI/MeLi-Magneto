@@ -51,7 +51,7 @@ describe("GenomeInformationDynamoDBRepository Test Suite", () => {
 				new Promise<number>((resolve) => resolve(0))
 			);
 			const result = await repository.getMutantGenomeCount();
-			expect(repository.getGenomeCount).toHaveBeenCalledWith(CONSTANTS.GEMONE_MUTANT_TYPE);
+			expect(repository.getGenomeCount).toHaveBeenCalledWith(CONSTANTS.GENOME_MUTANT_TYPE);
 			AWSMock.restore("DynamoDB.DocumentClient");
 		});
 	});

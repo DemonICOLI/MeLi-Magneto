@@ -1,0 +1,62 @@
+{
+	"info": {
+		"_postman_id": "6a193049-35ea-4c96-b8a4-b1d54a6a0dc5",
+		"name": "MeLi Mutant",
+		"schema": "https://schema.getpostman.com/json/collection/v2.1.0/collection.json"
+	},
+	"item": [
+		{
+			"name": "Mutant / Human Ratio",
+			"request": {
+				"method": "GET",
+				"header": [],
+				"url": {
+					"raw": "https://api.softwarevil.com/meli/stats",
+					"protocol": "https",
+					"host": [
+						"api",
+						"softwarevil",
+						"com"
+					],
+					"path": [
+						"meli",
+						"stats"
+					]
+				},
+				"description": "Displays the Ratio of Mutants against Humans"
+			},
+			"response": []
+		},
+		{
+			"name": "Mutant Identification Service",
+			"request": {
+				"method": "POST",
+				"header": [],
+				"body": {
+					"mode": "raw",
+					"raw": "{\n\"dna\":[\"AAAAAA\",\"CCCCCC\",\"TTATTT\",\"AGACGG\",\"GCGTCA\",\"TCACTG\"]\n}",
+					"options": {
+						"raw": {
+							"language": "json"
+						}
+					}
+				},
+				"url": {
+					"raw": "https://api.softwarevil.com/meli/mutant",
+					"protocol": "https",
+					"host": [
+						"api",
+						"softwarevil",
+						"com"
+					],
+					"path": [
+						"meli",
+						"mutant"
+					]
+				},
+				"description": "Service that Identifies if a Gnome is a Mutant genome"
+			},
+			"response": []
+		}
+	]
+}

@@ -1,0 +1,61 @@
+openapi: "3.0.1"
+info:
+  title: "MeLi"
+  version: "2021-03-03T04:52:56Z"
+servers:
+  - url: "https://api.softwarevil.com/{basePath}"
+    variables:
+      basePath:
+        default: "/meli"
+paths:
+  /mutant:
+    post:
+      requestBody:
+        description: Body de consulta de mutaciones para un genoma
+        required: true
+        content:
+          application/json:
+            schema:
+              $ref: '#/components/schemas/MutantIdentificationBody'
+      responses:
+        "200":
+          description: "Mutant Response"
+          content:
+            application/json:
+              schema:
+                $ref: "#/components/schemas/Empty"
+        "403":
+          description: "Human Response"
+          content:
+            application/json:
+              schema:
+                $ref: "#/components/schemas/Empty"
+  /stats:
+    get:
+      responses:
+        "200":
+          description: "200 response"
+          content:
+            application/json:
+              schema:
+                $ref: "#/components/schemas/Empty"
+components:
+  schemas:
+    Empty:
+      title: "Empty Schema"
+      type: "object"
+    MutantIdentificationBody:
+      title: "Mutant Body Identification Schema"
+      type: object
+      properties:
+        dna:
+          type: array
+          items:
+            type: string
+            pattern: "^[ACGT]+$"
+            example:
+              - "ACGT"
+              - "CGAT"
+      required:
+        - dna
+      additionalProperties: false

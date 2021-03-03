@@ -1,0 +1,28 @@
+{
+  "name": "MeLi Magneto",
+  "version": "1.0.0",
+  "description": "Examen Técnico MeLi",
+  "scripts": {
+    "test": "subpkg test",
+    "build": "subpkg run build",
+    "lint": "subpkg run lint",
+    "lint:fix": "subpkg run lint:fix"
+  },
+  "subPackages": [
+    "mutant-indentification",
+    "mutant-ratio-query",
+    "genome-count-updater"
+  ],
+  "repository": {
+    "type": "git",
+    "url": "git+https://github.com/DemonICOLI/MeLi-Magneto.git"
+  },
+  "bugs": {
+    "url": "https://github.com/DemonICOLI/MeLi-Magneto/issues"
+  },
+  "homepage": "https://github.com/DemonICOLI/MeLi-Magneto#readme",
+  "author": "Javier Quiñones",
+  "devDependencies": {
+    "subpackage": "^1.1.0"
+  }
+}

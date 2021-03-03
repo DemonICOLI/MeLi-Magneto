@@ -6,6 +6,7 @@ import { MutantIdentificationPresenter } from "../presenter/MutantIdentification
 import "reflect-metadata";
 import { inject, injectable } from "inversify";
 import { TYPES } from "../utils/Constants";
+import { GenomeInformationRepository } from "../repository/GenomeInformationRepository";
 
 @injectable()
 export class MutantIdentificationServiceImpl implements IMutantIdentificationService {
@@ -14,7 +15,8 @@ export class MutantIdentificationServiceImpl implements IMutantIdentificationSer
 		@inject(TYPES.MutantGeneVerticalFinder) private verticalGeneSequenceFinder: MutantGeneFinder,
 		@inject(TYPES.MutantGeneLeftDiagonalFinder) private leftDiagonalGeneSequenceFinder: MutantGeneFinder,
 		@inject(TYPES.MutantGeneRightDiagonalFinder) private rightDiagonalGeneSequenceFinder: MutantGeneFinder,
-		@inject(TYPES.MutantIdentificationPresenter) private presenter: MutantIdentificationPresenter
+		@inject(TYPES.MutantIdentificationPresenter) private presenter: MutantIdentificationPresenter,
+		@inject(TYPES.GenomeInformationRepository) private repository: GenomeInformationRepository
 	) {}
 
 	async checkMutant(subjectGenome: Genome): Promise<any> {
@@ -34,6 +36,15 @@ export class MutantIdentificationServiceImpl implements IMutantIdentificationSer
 			},
 			0
 		);
+		try {
+			await this.repository.saveGenomeResult(
+				Utils.generateGenomeIdentifier(subjectGenome),
+				totalNumberOfMutantSequences
+			);
+		} catch (error) {
+			console.error("Ocurrio un Error: %o", error);
+			return this.presenter.generateInternalServerErrorResponse();
+		}
 		if (totalNumberOfMutantSequences > 1) {
 			return this.presenter.generateIsMutantResponse();
 		}

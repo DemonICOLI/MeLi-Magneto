@@ -24,4 +24,8 @@ export class MutantIdentificationAWSAPIGWPresenter implements MutantIdentificati
 			body: "",
 		};
 	}
+
+	public generateInternalServerErrorResponse(): any {
+		return this.generateResponse(HTTP_CODES.INTERNAL_SERVER_ERROR);
+	}
 }

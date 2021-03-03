@@ -4,6 +4,9 @@ import { MutantIdentificationController } from "../controller/MutantIdentificati
 export const CONSTANTS = {
 	NUMBER_OF_CONSECUTIVE_GENES_TO_BE_MUTANT: 4,
 	GENES: "ACGT",
+	REPOSITORY_TABLE_NAME: "meli-mutant-information",
+	GENOME_INFORMATION_PARTITION_KEY: "GENOME_INFORMATION",
+	HASH_ALGORITHM: "sha256",
 };
 
 export const HTTP_CODES = {
@@ -21,4 +24,5 @@ export const TYPES = {
 	MutantIdentificationPresenter: Symbol.for("MutantIdentificationPresenter"),
 	MutantIdentificationController: Symbol.for("MutantIdentificationController"),
 	MutantIdentificationService: Symbol.for("MutantIdentificationService"),
+	GenomeInformationRepository: Symbol.for("GenomeInformationRepository"),
 };

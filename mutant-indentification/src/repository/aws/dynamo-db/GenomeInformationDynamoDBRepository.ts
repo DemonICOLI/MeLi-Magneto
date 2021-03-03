@@ -14,7 +14,7 @@ export class GenomeInformationDynamoDBRepository implements GenomeInformationRep
 			TableName: CONSTANTS.REPOSITORY_TABLE_NAME,
 			Item: {
 				INFORMATION_TYPE: CONSTANTS.GENOME_INFORMATION_PARTITION_KEY,
-				GENOME_IDENTIFIER: genomeIdentifier,
+				IDENTIFIER: genomeIdentifier,
 				NUMBER_OF_MUTANT_SEQUENCES: numberOfMutantSequences,
 			},
 		};

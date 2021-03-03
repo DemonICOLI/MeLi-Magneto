@@ -36,6 +36,18 @@ describe("GenomeInformationDynamoDBRepository Test Suite", () => {
 			await expectAsync(result).toBeResolvedTo(0);
 			AWSMock.restore("DynamoDB.DocumentClient");
 		});
+
+		it("A success get should resolve if items is empty", async () => {
+			AWSMock.setSDKInstance(AWS);
+			AWSMock.mock("DynamoDB.DocumentClient", "query", (parameters: object, callback: Function) => {
+				callback(null, { Items: [] });
+			});
+			const repository = new GenomeInformationDynamoDBRepository();
+			const result = repository.getGenomeCount("A");
+			await expectAsync(result).toBeResolvedTo(0);
+			AWSMock.restore("DynamoDB.DocumentClient");
+		});
+
 		it("getHumanGenomeCount should call getGenomeCount", async () => {
 			const repository = new GenomeInformationDynamoDBRepository();
 			spyOn(repository, "getGenomeCount").and.returnValue(

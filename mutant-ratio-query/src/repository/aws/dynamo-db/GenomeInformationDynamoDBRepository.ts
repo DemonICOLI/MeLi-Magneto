@@ -32,7 +32,7 @@ export class GenomeInformationDynamoDBRepository implements GenomeInformationRep
 			let { Items } = await this.documentClient.query(params).promise();
 			return Promise.resolve(Items ? Items[0].COUNT : 0);
 		} catch (error) {
-			console.error("Error Consultando Dynamo: %o", error);
+			console.error("Error Consultando Dynamo para %s: %o", genomeType, error);
 			throw new Error("Error Consultando Dynamo");
 		}
 	}

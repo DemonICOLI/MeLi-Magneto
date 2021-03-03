@@ -5,6 +5,8 @@ export const HTTP_CODES = {
 
 export const TYPES = {
 	MutantRatioQueryPresenter: Symbol.for("MutantRatioQueryPresenter"),
+	GenomeInformationRepository: Symbol.for("GenomeInformationRepository"),
+	MutantRatioService: Symbol.for("MutantRatioService"),
 };
 
 export const CONSTANTS = {

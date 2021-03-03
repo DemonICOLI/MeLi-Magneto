@@ -14,7 +14,7 @@ export class GenomeInformationDynamoDBRepository implements GenomeInformationRep
 	}
 
 	public async getMutantGenomeCount(): Promise<number> {
-		return await this.getGenomeCount(CONSTANTS.GEMONE_MUTANT_TYPE);
+		return await this.getGenomeCount(CONSTANTS.GENOME_MUTANT_TYPE);
 	}
 
 	public async getGenomeCount(genomeType: string): Promise<number> {

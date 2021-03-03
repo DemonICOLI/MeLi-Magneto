@@ -11,6 +11,8 @@ import { MutantIdentificationController } from "../controller/MutantIdentificati
 import { MutantIdentificationAWSAPIGWController } from "../controller/aws/api-gateway/MutantIdentificationAWSAPIGWController";
 import { IMutantIdentificationService } from "../service/IMutantIdentificationService";
 import { MutantIdentificationServiceImpl } from "../service/MutantIdentificationServiceImpl";
+import { GenomeInformationRepository } from "../repository/GenomeInformationRepository";
+import { GenomeInformationDynamoDBRepository } from "../repository/aws/dynamo-db/GenomeInformationDynamoDBRepository";
 
 const AppContainer: Container = new Container();
 
@@ -24,6 +26,9 @@ AppContainer.bind<MutantIdentificationPresenter>(TYPES.MutantIdentificationPrese
 AppContainer.bind<IMutantIdentificationService>(TYPES.MutantIdentificationService).to(MutantIdentificationServiceImpl);
 AppContainer.bind<MutantIdentificationController>(TYPES.MutantIdentificationController).to(
 	MutantIdentificationAWSAPIGWController
+);
+AppContainer.bind<GenomeInformationRepository>(TYPES.GenomeInformationRepository).to(
+	GenomeInformationDynamoDBRepository
 );
 
 export { AppContainer };

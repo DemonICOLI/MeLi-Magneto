@@ -3,6 +3,7 @@ import { Mock } from "ts-mocks";
 import { MutantIdentificationPresenter } from "../../src/presenter/MutantIdentificationPresenter";
 import { MutantGeneFinder } from "../../src/core/mutant-gene/finder/MutantGeneFinder";
 import { MutantIdentificationServiceImpl } from "../../src/service/MutantIdentificationServiceImpl";
+import { GenomeInformationRepository } from "../../src/repository/GenomeInformationRepository";
 
 describe("MutantIdentificationServiceImpl Test Suite", () => {
 	describe("Success Test Cases", () => {
@@ -16,8 +17,10 @@ describe("MutantIdentificationServiceImpl Test Suite", () => {
 				finder = new Mock<MutantGeneFinder>({
 					findNumberOfMutantSequence: async () => 0,
 				}).Object;
-
-			const service = new MutantIdentificationServiceImpl(finder, finder, finder, finder, presenter);
+			const repository = new Mock<GenomeInformationRepository>({
+				saveGenomeResult: async () => undefined,
+			}).Object;
+			const service = new MutantIdentificationServiceImpl(finder, finder, finder, finder, presenter, repository);
 			await service.checkMutant([[]]);
 			expect(presenter.generateInvalidInputResponse).toHaveBeenCalled();
 		});
@@ -36,12 +39,17 @@ describe("MutantIdentificationServiceImpl Test Suite", () => {
 				}).Object,
 				verticalFinder = new Mock<MutantGeneFinder>(verticalMock).Object;
 
+			const repository = new Mock<GenomeInformationRepository>({
+				saveGenomeResult: async () => undefined,
+			}).Object;
+
 			const service = new MutantIdentificationServiceImpl(
 				finderGenericMock,
 				verticalFinder,
 				finderGenericMock,
 				finderGenericMock,
-				presenter
+				presenter,
+				repository
 			);
 			await service.checkMutant([[]]);
 			expect(verticalMock.findNumberOfMutantSequence).toHaveBeenCalled();
@@ -61,12 +69,17 @@ describe("MutantIdentificationServiceImpl Test Suite", () => {
 				}).Object,
 				leftDiagonalFinder = new Mock<MutantGeneFinder>(leftDiagonalMock).Object;
 
+			const repository = new Mock<GenomeInformationRepository>({
+				saveGenomeResult: async () => undefined,
+			}).Object;
+
 			const service = new MutantIdentificationServiceImpl(
 				finderGenericMock,
 				finderGenericMock,
 				leftDiagonalFinder,
 				finderGenericMock,
-				presenter
+				presenter,
+				repository
 			);
 			await service.checkMutant([[]]);
 			expect(leftDiagonalMock.findNumberOfMutantSequence).toHaveBeenCalled();
@@ -86,12 +99,17 @@ describe("MutantIdentificationServiceImpl Test Suite", () => {
 				}).Object,
 				rightDiagonalFinder = new Mock<MutantGeneFinder>(rightDiagonalMock).Object;
 
+			const repository = new Mock<GenomeInformationRepository>({
+				saveGenomeResult: async () => undefined,
+			}).Object;
+
 			const service = new MutantIdentificationServiceImpl(
 				finderGenericMock,
 				finderGenericMock,
 				finderGenericMock,
 				rightDiagonalFinder,
-				presenter
+				presenter,
+				repository
 			);
 			await service.checkMutant([[]]);
 			expect(rightDiagonalMock.findNumberOfMutantSequence).toHaveBeenCalled();
@@ -111,12 +129,17 @@ describe("MutantIdentificationServiceImpl Test Suite", () => {
 				}).Object,
 				horizontalFinder = new Mock<MutantGeneFinder>(horizontalMock).Object;
 
+			const repository = new Mock<GenomeInformationRepository>({
+				saveGenomeResult: async () => undefined,
+			}).Object;
+
 			const service = new MutantIdentificationServiceImpl(
 				horizontalFinder,
 				finderGenericMock,
 				finderGenericMock,
 				finderGenericMock,
-				presenter
+				presenter,
+				repository
 			);
 			await service.checkMutant([[]]);
 			expect(horizontalMock.findNumberOfMutantSequence).toHaveBeenCalled();
@@ -133,12 +156,17 @@ describe("MutantIdentificationServiceImpl Test Suite", () => {
 					findNumberOfMutantSequence: async () => 0,
 				}).Object;
 
+			const repository = new Mock<GenomeInformationRepository>({
+				saveGenomeResult: async () => undefined,
+			}).Object;
+
 			const service = new MutantIdentificationServiceImpl(
 				finderGenericMock,
 				finderGenericMock,
 				finderGenericMock,
 				finderGenericMock,
-				presenter
+				presenter,
+				repository
 			);
 			await service.checkMutant([[]]);
 			expect(presenterMock.generateIsNotMutantResponse).toHaveBeenCalled();
@@ -155,15 +183,76 @@ describe("MutantIdentificationServiceImpl Test Suite", () => {
 					findNumberOfMutantSequence: async () => 1,
 				}).Object;
 
+			const repository = new Mock<GenomeInformationRepository>({
+				saveGenomeResult: async () => undefined,
+			}).Object;
+
 			const service = new MutantIdentificationServiceImpl(
 				finderGenericMock,
 				finderGenericMock,
 				finderGenericMock,
 				finderGenericMock,
-				presenter
+				presenter,
+				repository
 			);
 			await service.checkMutant([[]]);
 			expect(presenterMock.generateIsMutantResponse).toHaveBeenCalled();
+		});
+
+		it("checkMutant should call generateInternalServerErrorResponse in presenter if an error saving occurs", async () => {
+			spyOn(Utils, "isSquareGenome").and.returnValue(true);
+			const repositoryMock = {
+				saveGenomeResult: async () => undefined,
+			};
+			spyOn(repositoryMock, "saveGenomeResult");
+			const presenter = new Mock<MutantIdentificationPresenter>({
+					generateIsMutantResponse: () => undefined,
+				}).Object,
+				finderGenericMock = new Mock<MutantGeneFinder>({
+					findNumberOfMutantSequence: async () => 1,
+				}).Object;
+
+			const repository = new Mock<GenomeInformationRepository>(repositoryMock).Object;
+
+			const service = new MutantIdentificationServiceImpl(
+				finderGenericMock,
+				finderGenericMock,
+				finderGenericMock,
+				finderGenericMock,
+				presenter,
+				repository
+			);
+			await service.checkMutant([[]]);
+			expect(repositoryMock.saveGenomeResult).toHaveBeenCalled();
+		});
+
+		it("checkMutant should call saveGenomeResult in repository", async () => {
+			spyOn(Utils, "isSquareGenome").and.returnValue(true);
+			const presenterMock = {
+				generateInternalServerErrorResponse: () => undefined,
+			};
+			spyOn(presenterMock, "generateInternalServerErrorResponse");
+			const presenter = new Mock<MutantIdentificationPresenter>(presenterMock).Object,
+				finderGenericMock = new Mock<MutantGeneFinder>({
+					findNumberOfMutantSequence: async () => 1,
+				}).Object;
+
+			const repository = new Mock<GenomeInformationRepository>({
+				saveGenomeResult: async () => {
+					throw new Error("MOCK ERROR");
+				},
+			}).Object;
+
+			const service = new MutantIdentificationServiceImpl(
+				finderGenericMock,
+				finderGenericMock,
+				finderGenericMock,
+				finderGenericMock,
+				presenter,
+				repository
+			);
+			await service.checkMutant([[]]);
+			expect(presenterMock.generateInternalServerErrorResponse).toHaveBeenCalled();
 		});
 	});
 });

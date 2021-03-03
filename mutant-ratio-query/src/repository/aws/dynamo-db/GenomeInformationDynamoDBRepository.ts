@@ -20,17 +20,19 @@ export class GenomeInformationDynamoDBRepository implements GenomeInformationRep
 	public async getGenomeCount(genomeType: string): Promise<number> {
 		const params = {
 			TableName: CONSTANTS.REPOSITORY_TABLE_NAME,
-			IndexName: CONSTANTS.REPOSITORY_GENOME_COUNT_INDEX,
-			KeyConditionExpression: "INFORMATION_TYPE = :informationType and GENOME_TYPE = :genomeType",
+			KeyConditionExpression: "INFORMATION_TYPE = :informationType and IDENTIFIER = :genomeType",
 			ExpressionAttributeValues: {
 				":informationType": CONSTANTS.GENOME_COUNT_PARTITION_KEY,
 				":genomeType": genomeType,
 			},
-			ProjectionExpression: "COUNT",
+			ProjectionExpression: "#c",
+			ExpressionAttributeNames: {
+				"#c": "COUNT",
+			},
 		};
 		try {
 			let { Items } = await this.documentClient.query(params).promise();
-			return Promise.resolve(Items ? Items[0].COUNT : 0);
+			return Promise.resolve(Items ? (Items[0] ? Items[0].COUNT : 0) : 0);
 		} catch (error) {
 			console.error("Error Consultando Dynamo para %s: %o", genomeType, error);
 			throw new Error("Error Consultando Dynamo");

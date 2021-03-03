@@ -1,3 +1,3 @@
 export interface IGenomeCountUpdaterService {
-	updateGenomeCount(genomeType: string): Promise<object>;
+	updateGenomeCount(genomeType: number): Promise<object>;
 }

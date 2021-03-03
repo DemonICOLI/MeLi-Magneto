@@ -10,7 +10,8 @@
   },
   "subPackages": [
     "mutant-indentification",
-    "mutant-ratio-query"
+    "mutant-ratio-query",
+    "genome-count-updater"
   ],
   "repository": {
     "type": "git",

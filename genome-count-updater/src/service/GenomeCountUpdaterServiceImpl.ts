@@ -10,19 +10,16 @@ export class GenomeCountUpdaterServiceImpl implements IGenomeCountUpdaterService
 
 	constructor(
 		@inject(TYPES.GenomeInformationRepository) private repository: GenomeInformationRepository,
-		@inject(TYPES.GenomeInformationRepository) private presenter: GenomeCountUpdaterPresenter
+		@inject(TYPES.GenomeCountUpdaterPresenter) private presenter: GenomeCountUpdaterPresenter
 	) {}
 
-	async updateGenomeCount(genomeType: string): Promise<object> {
-		switch (genomeType) {
-			case CONSTANTS.GENOME_HUMAN_TYPE:
-				await this.repository.incrementHumanGenomeCount();
-				break;
-			case CONSTANTS.GENOME_MUTANT_TYPE:
-				await this.repository.incrementMutantGenomeCount();
-				break;
-			default:
-				throw new Error("Tipo Desconocido");
+	async updateGenomeCount(genomeType: number): Promise<object> {
+		if(genomeType < 0 ){
+			throw new Error("Tipo Desconocido");
+		} else if (genomeType >= 0 && genomeType < CONSTANTS.MINIMUM_SEQUENCES_TO_BE_MUTANT) {
+			await this.repository.incrementHumanGenomeCount();
+		} else {
+			await this.repository.incrementMutantGenomeCount();
 		}
 		return this.presenter.generateOkResponse();
 	}

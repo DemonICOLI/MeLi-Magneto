@@ -24,7 +24,7 @@ export class GenomeInformationDynamoDBRepository implements GenomeInformationRep
 			},
 			UpdateExpression: "ADD #C :increment",
 			ExpressionAttributeNames: {
-				"#c": "COUNT",
+				"#C": "COUNT",
 			},
 			ExpressionAttributeValues: {
 				":increment": 1,

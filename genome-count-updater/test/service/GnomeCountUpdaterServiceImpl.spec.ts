@@ -10,7 +10,7 @@ describe("GenomeCountUpdaterServiceImpl Test Suite", () => {
 			const presenter = new Mock<GenomeCountUpdaterPresenter>().Object;
 			const repository = new Mock<GenomeInformationRepository>().Object;
 			const service = new GenomeCountUpdaterServiceImpl(repository, presenter);
-			await expectAsync(service.updateGenomeCount("AAAA")).toBeRejected();
+			await expectAsync(service.updateGenomeCount(-1)).toBeRejected();
 		});
 
 		it("updateGenomeCount should call incrementHumanGenomeCount if Human Genome", async () => {
@@ -26,7 +26,7 @@ describe("GenomeCountUpdaterServiceImpl Test Suite", () => {
 			}).Object;
 			const repository = new Mock<GenomeInformationRepository>(repositoryMock).Object;
 			const service = new GenomeCountUpdaterServiceImpl(repository, presenter);
-			await service.updateGenomeCount(CONSTANTS.GENOME_HUMAN_TYPE);
+			await service.updateGenomeCount(CONSTANTS.MINIMUM_SEQUENCES_TO_BE_MUTANT - 1);
 			expect(repositoryMock.incrementHumanGenomeCount).toHaveBeenCalled();
 		});
 
@@ -43,7 +43,7 @@ describe("GenomeCountUpdaterServiceImpl Test Suite", () => {
 			}).Object;
 			const repository = new Mock<GenomeInformationRepository>(repositoryMock).Object;
 			const service = new GenomeCountUpdaterServiceImpl(repository, presenter);
-			await service.updateGenomeCount(CONSTANTS.GENOME_MUTANT_TYPE);
+			await service.updateGenomeCount(CONSTANTS.MINIMUM_SEQUENCES_TO_BE_MUTANT);
 			expect(repositoryMock.incrementMutantGenomeCount).toHaveBeenCalled();
 		});
 
@@ -60,7 +60,7 @@ describe("GenomeCountUpdaterServiceImpl Test Suite", () => {
 				incrementMutantGenomeCount: async () => undefined,
 			}).Object;
 			const service = new GenomeCountUpdaterServiceImpl(repository, presenter);
-			await service.updateGenomeCount(CONSTANTS.GENOME_MUTANT_TYPE);
+			await service.updateGenomeCount(CONSTANTS.MINIMUM_SEQUENCES_TO_BE_MUTANT);
 			expect(presenterMock.generateOkResponse).toHaveBeenCalled();
 		});
 	});

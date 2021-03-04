@@ -20,16 +20,8 @@ paths:
       responses:
         "200":
           description: "Mutant Response"
-          content:
-            application/json:
-              schema:
-                $ref: "#/components/schemas/Empty"
         "403":
           description: "Human Response"
-          content:
-            application/json:
-              schema:
-                $ref: "#/components/schemas/Empty"
   /stats:
     get:
       responses:
@@ -38,12 +30,26 @@ paths:
           content:
             application/json:
               schema:
-                $ref: "#/components/schemas/Empty"
+                $ref: "#/components/schemas/RatioResponse"
 components:
   schemas:
-    Empty:
-      title: "Empty Schema"
-      type: "object"
+    RatioResponse:
+      title: "Ratio Query Response"
+      type: object
+      properties:
+        count_mutant_dna:
+          type: integer
+          minimum: 0
+          example: 1
+        count_human_dna:
+          type: integer
+          minimum: 0
+          example: 2
+        ratio:
+          type: number
+          minimum: 0
+          example: 0.5
+      additionalProperties: false
     MutantIdentificationBody:
       title: "Mutant Body Identification Schema"
       type: object
